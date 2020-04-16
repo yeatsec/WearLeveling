@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 
-task = 'gcc'
+task = 'anagram'
 filename = 'cache_{}.txt'.format(task)
 num_sets_l1 = 256
 num_sets_l2 = 1024
 
-gran_l1 = 128
+gran_l1 = 1
 thresh = 10000
 
 cachefile = open(filename, 'r')
