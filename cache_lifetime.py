@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 shift_nums = [1, 10, 100, 1000, 10000, 100000, 1000000]
 
 its = 500
-task = 'gcc'
+task = 'go'
 
 sgn = lambda x: 1.0 if x >= 0.0 else -1.0
 lifetime = lambda c, c0: 1. - 0.15*np.log10(c/c0) if c > c0 else 1.

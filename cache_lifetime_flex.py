@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 
 grans = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
-its = 500
-task = 'anagram'
+its = 40
+task = 'go'
+sn = 1000000
 
 sgn = lambda x: 1.0 if x >= 0.0 else -1.0
 lifetime = lambda c, c0: 1. - 0.15*np.log10(c/c0) if c > c0 else 1.
@@ -29,8 +30,8 @@ def prod_reduce(arr):
 
 probs = []
 for gran in grans:
-    freq =float(its)* np.load('./datafr/dl1_{}_sn10000_gran{}_wfreq.npy'.format(task, gran), allow_pickle=True)
-    bins = np.load('./datafr/dl1_{}_sn10000_gran{}_wbins.npy'.format(task, gran), allow_pickle=True)
+    freq =float(its)* np.load('./datafr/dl1_{}_sn{}_gran{}_wfreq.npy'.format(task, sn, gran), allow_pickle=True)
+    bins = np.load('./datafr/dl1_{}_sn{}_gran{}_wbins.npy'.format(task, sn, gran), allow_pickle=True)
     # plt.figure()
     # plt.hist(x=range(256), bins=bins, weights=freq)
     # plt.show()

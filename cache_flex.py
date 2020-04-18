@@ -2,13 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 
-task = 'anagram'
+task = 'go'
 filename = 'cache_{}.txt'.format(task)
 num_sets_l1 = 256
 num_sets_l2 = 1024
 
-gran_l1 = 1
-thresh = 10000
+gran_l1 = 2**8
+thresh = 1000000
 
 cachefile = open(filename, 'r')
 cachecsv = csv.reader(cachefile, delimiter=' ')
@@ -57,7 +57,7 @@ def g(x, shift):
 for row in cachecsv:
     if not (row[0] in stat):
         stat[row[0]] = {'r': [], 
-        'w': [], 
+        'w': [0 for _ in range(num_sets_l1)], 
         'total': 0, 
         'shift': {
             'gran': gran_l1,
@@ -70,26 +70,24 @@ for row in cachecsv:
             }, 
         'num_access': 0}
     stat[row[0]]['num_access'] += 1
-    stat[row[0]][row[1]].append(g(int(row[2]), stat[row[0]]['shift']))
+    stat[row[0]][row[1]][(g(int(row[2]), stat[row[0]]['shift']))] += 1
     stat[row[0]]['total'] += 1
 
 # L1 Data Cache
 r_locs = np.array(stat['dl1']['r'], dtype=int)
 w_locs = np.array(stat['dl1']['w'], dtype=int)
 total = stat['dl1']['total']
-w_vals, w_bins, patches = plt.hist(x=w_locs, bins=range(num_sets_l1+1), color='b', label='Writes', alpha=0.7)
-r_vals, r_bins, patches = plt.hist(x=r_locs, bins=range(num_sets_l1+1), color='r', label='Reads', alpha=0.7)
 plt.figure()
 w_locs = [w_locs[i] + stat['dl1']['shift']['addl_counts'][i] for i in range(num_sets_l1)]
-w_vals, w_bins, patches = plt.hist(x=range(num_sets_l1), bins=w_bins, weights=w_vals, color='b', label='Writes', alpha=0.7)
-r_median = int(np.median(r_vals))
+w_vals, w_bins, patches = plt.hist(x=range(num_sets_l1), bins=range(num_sets_l1+1), weights=w_locs, color='b', label='Writes', alpha=0.7)
+# r_median = int(np.median(r_vals))
 w_median = int(np.median(w_vals))
 plt.title('Write Distribution for L1 Data Cache\nTask: {} Access Total: {}\nThreshold: {} Granularity: {} # Remaps: {}'.format(task, total, stat['dl1']['shift']['thresh'], gran_l1, stat['dl1']['shift']['num_remap']))
 plt.xlabel('Physical Set Location')
 plt.ylabel('Frequency')
 #plt.legend()
 plt.tight_layout()
-plt.savefig('figuresfr/dl1_{}_sn{}_gran{}.png'.format(task, thresh, gran_l1), dpi=300)
+plt.savefig('figuresfr/dl1_{}_sn{}_gran{}.png'.format(task, thresh, gran_l1), dpi=100)
 np.save('datafr/dl1_{}_sn{}_gran{}_wfreq.npy'.format(task,  thresh, gran_l1), w_vals)
 np.save('datafr/dl1_{}_sn{}_gran{}_wbins.npy'.format(task, thresh, gran_l1), w_bins)
 # np.save('datafr/dl1_{}_sn{}_gran{}_rfreq.npy'.format(task, thresh, gran_l1), r_vals)
