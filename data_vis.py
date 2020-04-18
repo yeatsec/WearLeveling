@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 task = 'gcc'
 thresh = 10000
-gran = 2**2
+gran = 2**3
 
 freq = np.load('./datafr/dl1_{}_sn{}_gran{}_wfreq.npy'.format(task, thresh, gran), allow_pickle=True)
 bins = np.load('./datafr/dl1_{}_sn{}_gran{}_wbins.npy'.format(task, thresh, gran), allow_pickle=True)

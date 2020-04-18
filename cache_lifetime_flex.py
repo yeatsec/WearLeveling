@@ -1,18 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from statistics import mean
 
 grans = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
-its = 40
-task = 'go'
+its = 680
+task = 'gcc'
 sn = 1000000
 
 sgn = lambda x: 1.0 if x >= 0.0 else -1.0
 lifetime = lambda c, c0: 1. - 0.15*np.log10(c/c0) if c > c0 else 1.
-lt = lambda x: lifetime(x, 10**7) if lifetime(x, 10**7) >= 0 else 0.0
+lt = lambda x: lifetime(x, 10**8) if lifetime(x, 10**8) >= 0 else 0.0
 ltvect = np.vectorize(lt, otypes=[float])
 
-x = np.logspace(start=1, stop=12, num=1001, endpoint=True)
+x = np.logspace(start=1, stop=15, num=1001, endpoint=True)
 y = ltvect(x)
 
 plt.figure()
@@ -30,7 +31,10 @@ def prod_reduce(arr):
 
 probs = []
 for gran in grans:
-    freq =float(its)* np.load('./datafr/dl1_{}_sn{}_gran{}_wfreq.npy'.format(task, sn, gran), allow_pickle=True)
+    freq = np.load('./datafr/dl1_{}_sn{}_gran{}_wfreq.npy'.format(task, sn, gran), allow_pickle=True)
+    ave_freq = mean(freq)
+    print(10**8/ave_freq)
+    freq = [int(f_val + (its*ave_freq)) for f_val in freq]
     bins = np.load('./datafr/dl1_{}_sn{}_gran{}_wbins.npy'.format(task, sn, gran), allow_pickle=True)
     # plt.figure()
     # plt.hist(x=range(256), bins=bins, weights=freq)
@@ -42,6 +46,6 @@ plt.title('Lifetime Prediction for {} Iterations of {}\nwith Flexible Remapping'
 plt.semilogx(grans, probs, linewidth=2, basex=2)
 plt.xlabel('Granularity')
 plt.ylabel('Probability entire Cache is still functional')
-plt.ylim((0, 1.05))
+plt.ylim((-0.05, 1.05))
 plt.savefig('flex_map_lifetime_{}_{}its.png'.format(task, its), dpi=100)
 plt.show()
