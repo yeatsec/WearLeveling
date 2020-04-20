@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 granularity = [1, 2, 4, 8, 16, 32, 64]
 count_bit_len = 4
 block_size = 32
+shift_storage = 4
 total_storage = []
 
 for gran in granularity:
@@ -24,7 +25,7 @@ for gran in granularity:
     
     temp_storage = gran * block_size
     
-    total_storage.append(100*(count_storage + table_storage + temp_storage)/(32*256))
+    total_storage.append(100*(count_storage + table_storage + temp_storage + shift_storage)/(32*256))
     
 plt.figure()
 plt.plot(granularity, total_storage)
