@@ -8,7 +8,7 @@ num_sets_l1 = 256
 num_sets_l2 = 1024
 
 gran_l1 = 2**8
-thresh = 1000000
+thresh = 100000
 
 cachefile = open(filename, 'r')
 cachecsv = csv.reader(cachefile, delimiter=' ')

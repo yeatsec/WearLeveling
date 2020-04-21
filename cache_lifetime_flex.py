@@ -4,9 +4,9 @@ from statistics import mean
 
 grans = [1, 2, 4, 8, 16, 32, 64, 128, 256]
 
-its = [1000, 2000, 3000, 4000, 5000]
-task = 'anagram'
-sn = 10000
+its = [100, 200, 300, 400, 500]
+task = 'go'
+sn = 100000
 
 colors = ['b', 'r', 'g', 'm', 'k']
 

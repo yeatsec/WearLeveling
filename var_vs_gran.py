@@ -4,7 +4,7 @@ import csv
 
 task = 'gcc'
 granularity = [1, 2, 4, 8, 16, 32, 64, 128]
-sn = '10000'
+sn = '100000'
 write_var = []
 write_num = []
 overhead = []
@@ -26,7 +26,7 @@ plt.title('Overhead vs. Granularity for L1 Data Cache\nTask: {}, Shift Number: {
 plt.xlabel('Granularity')
 plt.ylabel('Overhead')
 plt.tight_layout()
-plt.savefig('dl1_{}_sn{}_overhead_v_gran.png'.format(task, sn), dpi=300)
+plt.savefig('dl1_{}_sn{}_overhead_v_gran.png'.format(task, sn), dpi=100)
 plt.grid(True, which = 'both')
 
 plt.figure()
@@ -36,7 +36,7 @@ plt.xlabel('Granularity')
 plt.ylabel('Std Dev Writes')
 plt.gca().set_xscale('log', basex=2)
 plt.tight_layout()
-plt.savefig('dl1_{}_sn{}_var_v_gran.png'.format(task, sn), dpi=300)
+plt.savefig('dl1_{}_sn{}_var_v_gran.png'.format(task, sn), dpi=100)
 plt.grid(True, which = 'both')
 
 plt.show()
